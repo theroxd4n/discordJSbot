@@ -22,9 +22,23 @@ client.on('message', (message) => {
         .substring(PREFIX.length)
         .split(/\s+/);
         if(CMD_NAME === 'kick') {
-            message.channel.send('Kicked the user');
+            if (message.member.hasPermission('KICK_MEMBERS')) return message.reply('No tienes permisos para banear a usuarios.')
+            if (args.length === 0) return message.reply('Escribe el ID del usuario.');
+            const member = message.guild.members.cache.get(args[0]);
+            if (member){
+                member.kick()
+                .then((member) => message.channel.send(`${member} ha sido expulsado del servidor.`))
+                .catch((err) => message.channel.send('No tengo permisos para expulsar al usuario :('));
+            } else {
+                message.channel.send('Ese miembro no existe.')
+            }
         } else if(CMD_NAME === 'ban'){
             message.channel.send(`${args[0]} ha sido baneado.`);
+        }
+
+        if (CMD_NAME === 'profile'){
+            image = message.attachments.first().url;
+            client.user.setAvatar(image);
         }
 
         if(CMD_NAME === 'pastillas') {
@@ -48,8 +62,9 @@ client.on('message', (message) => {
             message.channel.send(`${message.author}, eres maravilloso/a!`);}
             if(CMD_NAME === 'youtube') {
                 youtubeApi.search(args.join(' ')).then((results) => {
+                    if (results.length === 0) return message.reply('no se han encontrado videos con esa búsqueda.')
                     message.channel.send(`https://www.youtube.com/watch?v=${results[0].id}`);
-                });
+                }).catch((err)=> console.log(err));
                 
             }
     }
