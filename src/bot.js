@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+
 const Discord = require('discord.js');
 
 const fs = require('fs');
@@ -23,11 +24,11 @@ client.on('ready', () => {
 client.on('message', (message) => {
     if (message.author.bot) return;
 
-    if (bannedWords.some(substring => message.content.includes(substring))) {
-        message.delete({ timeout: 1 })
-            .then(message.channel.send('No se puede decir esa palabra.'))
-            .catch(console.error);
-    }
+    // if (bannedWords.some(substring => message.content.includes(substring))) {
+    //     message.delete({ timeout: 1 })
+    //         .then(message.channel.send('No se puede decir esa palabra.'))
+    //         .catch(console.error);
+    // }
 
 
     // COMANDOS
@@ -53,6 +54,15 @@ client.on('message', (message) => {
                 break;
             case 'tiempo':
                 client.commands.get('tiempo').execute(message, args);
+                break;
+            case 'niconiconii':
+                client.commands.get('niconiconii').execute(message, args);
+                break;
+            case 'muteall':
+                client.commands.get('muteall').execute(message, args);
+                break;
+            case 'unmuteall':
+                client.commands.get('unmuteall').execute(message, args);
                 break;
             default:
                 message.channel.send('Ese comando no existe.');
