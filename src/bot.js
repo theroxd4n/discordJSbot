@@ -3,7 +3,11 @@ require('dotenv').config();
 
 const Discord = require('discord.js');
 
+const mongoose = require('mongoose');
+
 const fs = require('fs');
+var User = require("./models/user");
+var Reminder = require("./models/reminder");
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -16,6 +20,9 @@ for (const file of commandFiles) {
 
 const { PREFIX } = require('./config.json');
 const bannedWords = require('./bannedWords')
+
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.1js1r.gcp.mongodb.net/${process.env.MONGO_DBNAME}?retryWrites=true&w=majority`, {useNewUrlParser: true, useUnifiedTopology: true});
+
 
 client.on('ready', () => {
     console.log(`${client.user.tag} ha iniciado sesión.`);
@@ -40,6 +47,9 @@ client.on('message', (message) => {
             .split(/ +(?=(?:(?:[^"]*"){2})*[^"]*$)/g);
 
         switch (CMD_NAME) {
+            case 'help':
+                client.commands.get('help').execute(message, client, PREFIX);
+                break;
             case 'musica':
                 message.channel.send(args);
                 break;
@@ -63,6 +73,15 @@ client.on('message', (message) => {
                 break;
             case 'unmuteall':
                 client.commands.get('unmuteall').execute(message, args);
+                break;
+            case 'crearrecordatorio':
+                client.commands.get('crearrecordatorio').execute(message, args);
+                break;
+            case 'borrarrecordatorio':
+                client.commands.get('borrarrecordatorio').execute(message, args);
+                break;
+            case 'misrecordatorios':
+                client.commands.get('misrecordatorios').execute(message, args);
                 break;
             default:
                 message.channel.send('Ese comando no existe.');

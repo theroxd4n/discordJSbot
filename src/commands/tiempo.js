@@ -1,9 +1,11 @@
 const fetch = require('node-fetch');
-
+const { PREFIX } = require('../config.json');
 module.exports = {
     name: 'tiempo',
     description : 'Comando para consultar el tiempo actual en cualquier parte del mundo.',
+    usage: `${PREFIX}tiempo LUGAR`,
     execute(message, args){
+        if (args.length == 0) return message.reply(`debes usar el comando de la siguiente manera: \`\`\`${this.usage}\`\`\``);
         let query = args.join(' ');
             let apiCoords = `https://api.opencagedata.com/geocode/v1/json?q=${query}&key=${process.env.GEOCODING_API_KEY}&language=es`;
             

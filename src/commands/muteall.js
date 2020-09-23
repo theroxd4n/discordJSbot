@@ -1,6 +1,8 @@
+const { PREFIX } = require('../config.json');
 module.exports = {
     name: 'muteall',
-    description: 'Comando para mutear a todos los miembros de un canal',
+    description: 'Comando para mutear a todos los miembros de un canal de voz.',
+    usage: `${PREFIX}muteall`,
     execute(message, args) {
         if (message.member.roles.cache.has('748606234432766094')) {
             message.guild.roles.fetch("757218833999069215").then((role) => {
