@@ -2,6 +2,7 @@ var Reminder = require('../models/reminder');
 var User = require('../models/user');
 const mongoose = require("mongoose");
 const { PREFIX } = require('../config.json');
+var moment = require('moment')
 module.exports = {
     name: 'misrecordatorios',
     description: 'Comando para ver mis recordatorios.',
@@ -23,8 +24,9 @@ module.exports = {
                     return message.reply(str);
                 } else {
                     var messageStr = "";
+                    moment.locale('ES'); 
                     reminders.forEach(reminder => {
-                        var newMessage = `\`\`\`[${reminder.time} min] ${reminder._id}: ${reminder.message}\`\`\``;
+                        var newMessage = `\`\`\`[${moment(reminder.date).format('LLL')}] ${reminder._id}: ${reminder.message}\`\`\``;
                         messageStr = messageStr + newMessage;
                     })
                     return message.reply(messageStr);

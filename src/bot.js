@@ -5,9 +5,13 @@ const Discord = require('discord.js');
 
 const mongoose = require('mongoose');
 
+const PriorityQueue = require("./PriorityQueue");
+const { fork } = require('child_process');
+
 const fs = require('fs');
 var User = require("./models/user");
 var Reminder = require("./models/reminder");
+
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -21,7 +25,20 @@ for (const file of commandFiles) {
 const { PREFIX } = require('./config.json');
 const bannedWords = require('./bannedWords')
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.1js1r.gcp.mongodb.net/${process.env.MONGO_DBNAME}?retryWrites=true&w=majority`, {useNewUrlParser: true, useUnifiedTopology: true});
+var db = mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@cluster0.1js1r.gcp.mongodb.net/${process.env.MONGO_DBNAME}?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true });
+// var remindersQueue = new PriorityQueue();
+// const child = fork(__dirname + '/listener');
+// var query = Reminder.find({}).sort('date');
+// query.then(function (docs) {
+//     for (let element of docs) {
+//         remindersQueue.enqueue(element, element.date)
+//     }
+// }).finally(() => {
+//     child.send(remindersQueue);
+//     child.on('message', (reminder) => {
+//         child.send(remindersQueue);
+//     });
+
 
 
 client.on('ready', () => {
@@ -75,7 +92,7 @@ client.on('message', (message) => {
                 client.commands.get('unmuteall').execute(message, args);
                 break;
             case 'crearrecordatorio':
-                client.commands.get('crearrecordatorio').execute(message, args);
+                client.commands.get('crearrecordatorio').execute(message, args, db);
                 break;
             case 'borrarrecordatorio':
                 client.commands.get('borrarrecordatorio').execute(message, args);
@@ -90,5 +107,11 @@ client.on('message', (message) => {
 
     }
 });
-
 client.login(process.env.DISCORDJS_BOT_TOKEN);
+
+
+
+
+
+
+

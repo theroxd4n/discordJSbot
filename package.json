@@ -20,9 +20,12 @@
   },
   "homepage": "https://github.com/theroxd4n/discordJSbot#readme",
   "dependencies": {
+    "cron": "^1.8.2",
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
+    "moment": "^2.29.0",
     "mongoose": "^5.10.6",
+    "mongoose-cron": "^0.5.7",
     "node-fetch": "^2.6.0",
     "node-youtube-search": "^1.0.4"
   }
