@@ -7,6 +7,7 @@ module.exports = {
     execute(message, args){
         if (args.length == 0) return message.reply(`debes usar el comando de la siguiente manera: \`\`\`${this.usage}\`\`\``);
         let query = args.join(' ');
+        if (query.toLowerCase() == 'el corazon de ella') return message.reply('El corazón de ella está más frio que el Polo Sur. Lo siento.');
             let apiCoords = `https://api.opencagedata.com/geocode/v1/json?q=${query}&key=${process.env.GEOCODING_API_KEY}&language=es`;
             
             fetch(apiCoords)
