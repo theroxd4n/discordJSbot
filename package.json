@@ -27,6 +27,7 @@
     "mongoose": "^5.10.6",
     "mongoose-cron": "^0.5.7",
     "node-fetch": "^2.6.0",
-    "node-youtube-search": "^1.0.4"
+    "node-youtube-search": "^1.0.4",
+    "socket.io": "^2.3.0"
   }
 }

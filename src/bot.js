@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+var io = require('socket.io')(5000);
 
 const Discord = require('discord.js');
 
@@ -39,6 +39,9 @@ var db = mongoose.connect(`mongodb+srv://${process.env.MONGO_USERNAME}:${process
 //         child.send(remindersQueue);
 //     });
 
+io.on('connection', function (socket) {
+    console.log("Conectado al socket");
+})
 
 
 client.on('ready', () => {
@@ -66,6 +69,9 @@ client.on('message', (message) => {
         switch (CMD_NAME) {
             case 'help':
                 client.commands.get('help').execute(message, client, PREFIX);
+                break;
+            case 'juego':
+                client.commands.get('juego').execute(message, args, io);
                 break;
             case 'musica':
                 message.channel.send(args);
